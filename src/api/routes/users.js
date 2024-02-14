@@ -3,13 +3,15 @@ const {
   register,
   login,
   editUser,
-  deleteUser
+  deleteUser,
+  getUsers
 } = require('../controllers/users');
 
 const userRoutes = require('express').Router();
 
 userRoutes.post('/register', register);
 userRoutes.post('/login', login);
+userRoutes.get('/', getUsers);
 userRoutes.put('/:id', [isLogedIn], editUser);
 userRoutes.delete('/:id', [isAdmin], deleteUser);
 

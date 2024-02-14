@@ -64,12 +64,25 @@ const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const deletedUser = await User.findByIdAndDelete(id);
-    return res
-      .status(200)
-      .json({ mensaje: 'usuario eliminado', usuario: deletedUser });
+    if (deletedUser) {
+      return res
+        .status(200)
+        .json({ mensaje: 'usuario eliminado', usuario: deletedUser });
+    } else {
+      return res.status(404).json('Usuario no encontrado');
+    }
   } catch (error) {
     return res.status(400).json(error);
   }
 };
 
-module.exports = { register, login, editUser, deleteUser };
+const getUsers = async (req, res, next) => {
+  try {
+    const allUsers = await User.find();
+    return res.status(200).json(allUsers);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+module.exports = { register, login, editUser, deleteUser, getUsers };
