@@ -35,4 +35,24 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login };
+const editUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (req.user._id === id || req.user.role === 'admin') {
+      //Quiero que solo el mismo usuario o un administrador puedan editar los datos del usuario
+      const newUser = new User(req.body);
+      newUser._id = id;
+      const updatedUser = await User.findByIdAndUpdate(id, newUser, {
+        new: true
+      });
+      return res.status(200).json({
+        message: 'Usuario actualizado correctamente',
+        usuario: updatedUser
+      });
+    }
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+module.exports = { register, login, editUser };
