@@ -53,11 +53,23 @@ const editUser = async (req, res, next) => {
     } else {
       return res
         .status(400)
-        .json('No estás autorizado para realizar esta acción 3');
+        .json('No estás autorizado para realizar esta acción');
     }
   } catch (error) {
     return res.status(400).json(error);
   }
 };
 
-module.exports = { register, login, editUser };
+const deleteUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const deletedUser = await User.findByIdAndDelete(id);
+    return res
+      .status(200)
+      .json({ mensaje: 'usuario eliminado', usuario: deletedUser });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+module.exports = { register, login, editUser, deleteUser };
