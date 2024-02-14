@@ -1,4 +1,6 @@
+const { generateSign } = require('../../utils/jwt');
 const User = require('../models/users');
+const bcrypt = require('bcrypt');
 
 const register = async (req, res, next) => {
   try {
@@ -14,4 +16,23 @@ const register = async (req, res, next) => {
   }
 };
 
-module.exports = { register };
+const login = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ username: req.body.username }); //validar user
+    if (user) {
+      if (bcrypt.compareSync(req.body.password, user.password)) {
+        //validar password
+        const token = generateSign(user._id);
+        return res.status(200).json({ user, token });
+      } else {
+        return res.status(400).json('Usuario o contraseña incorrectos');
+      }
+    } else {
+      return res.status(400).json('Usuario o contraseña incorrectos');
+    }
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+module.exports = { register, login };
