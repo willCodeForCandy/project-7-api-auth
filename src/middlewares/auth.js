@@ -24,7 +24,7 @@ const isAdmin = async (req, res, next) => {
     if (!token) {
       return res
         .status(400)
-        .json('No estás autorizado para realizar esta acción');
+        .json('No estás autorizado para realizar esta acción 2');
     }
     const { id } = verifyJwt(token);
     const user = await User.findById(id);

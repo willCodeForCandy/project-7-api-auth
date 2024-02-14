@@ -38,7 +38,8 @@ const login = async (req, res, next) => {
 const editUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    if (req.user._id === id || req.user.role === 'admin') {
+
+    if (req.user.id === id || req.user.role === 'admin') {
       //Quiero que solo el mismo usuario o un administrador puedan editar los datos del usuario
       const newUser = new User(req.body);
       newUser._id = id;
@@ -49,6 +50,10 @@ const editUser = async (req, res, next) => {
         message: 'Usuario actualizado correctamente',
         usuario: updatedUser
       });
+    } else {
+      return res
+        .status(400)
+        .json('No estás autorizado para realizar esta acción 3');
     }
   } catch (error) {
     return res.status(400).json(error);
