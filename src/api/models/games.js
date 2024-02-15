@@ -5,7 +5,11 @@ const gameSchema = new mongoose.Schema(
     title: { type: String, trim: true, required: true, unique: true },
     releaseYear: { type: Number, trim: true },
     img: { type: String, trim: true, required: true },
-    platform: { type: mongoose.Type.ObjectId, required: false, ref: consoles }
+    platform: {
+      type: mongoose.Types.ObjectId,
+      required: false,
+      ref: 'consoles'
+    }
   },
   {
     timestamps: true,
