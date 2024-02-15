@@ -12,6 +12,6 @@ const consoleSchema = new mongoose.Schema(
   }
 );
 
-const Console = mongoose.model('console', consoleSchema, 'consoles');
+const Console = mongoose.model('Console', consoleSchema, 'consoles');
 
 module.exports = Console;

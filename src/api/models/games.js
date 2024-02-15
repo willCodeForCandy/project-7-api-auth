@@ -7,8 +7,7 @@ const gameSchema = new mongoose.Schema(
     img: { type: String, trim: true, required: true },
     platform: {
       type: mongoose.Types.ObjectId,
-      required: false,
-      ref: 'consoles'
+      ref: 'Console'
     }
   },
   {

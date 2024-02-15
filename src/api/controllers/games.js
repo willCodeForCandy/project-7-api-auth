@@ -3,7 +3,7 @@ const Game = require('../models/games');
 const addGame = async (req, res, next) => {
   try {
     const newGame = new Game(req.body);
-    const existingGame = await Game.findOne({ username: req.body.username });
+    const existingGame = await Game.findOne({ title: req.body.title });
     if (existingGame) {
       return res.status(400).json('Ese juego ya está registrado');
     }
@@ -49,10 +49,17 @@ const deleteGame = async (req, res, next) => {
 
 const getGames = async (req, res, next) => {
   try {
-    const allGames = await Game.find();
+    const allGames = await Game.find().populate('platform');
+    if (allGames.length === 0) {
+      return res
+        .status(204)
+        .json('Todavía no hay juegos cargados en la base de datos');
+    }
     return res.status(200).json(allGames);
   } catch (error) {
-    return res.status(400).json(error);
+    return res
+      .status(400)
+      .json({ mensaje: 'Error buscando los juegos', error: error });
   }
 };
 
