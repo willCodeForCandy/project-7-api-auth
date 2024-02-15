@@ -10,7 +10,7 @@ const consoleRoutes = require('express').Router();
 
 consoleRoutes.post('/add', [isLogedIn], addConsole);
 consoleRoutes.get('/', getConsoles);
-consoleRoutes.put('/edit/:id', [isLogedIn], editConsole);
+consoleRoutes.put('/:id', [isLogedIn], editConsole);
 consoleRoutes.delete('/:id', [isLogedIn], deleteConsole);
 
 module.exports = consoleRoutes;
