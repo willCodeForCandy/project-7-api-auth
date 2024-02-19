@@ -22,6 +22,10 @@ const isAdmin = async (req, res, next) => {
   try {
     if (req.user.role === 'admin') {
       next();
+    } else {
+      return res
+        .status(400)
+        .json('No estás autorizado para realizar esta acción');
     }
   } catch (error) {
     return res.status(400).json(error);

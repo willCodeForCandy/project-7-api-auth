@@ -86,4 +86,30 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login, editUser, deleteUser, getUsers };
+const manageAdmins = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        role: req.body.role
+      },
+      { new: true }
+    );
+    return res.status(200).json({
+      message: 'Usuario actualizado correctamente',
+      usuario: updatedUser
+    });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  editUser,
+  deleteUser,
+  getUsers,
+  manageAdmins
+};
