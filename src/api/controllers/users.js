@@ -9,6 +9,7 @@ const register = async (req, res, next) => {
     if (existingUser) {
       return res.status(400).json('Ese nombre de usuario ya existe');
     }
+    existingUser.role = 'user';
     const savedUser = await newUser.save();
     return res.status(201).json(savedUser);
   } catch (error) {
@@ -38,11 +39,11 @@ const login = async (req, res, next) => {
 const editUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-
     if (req.user.id === id || req.user.role === 'admin') {
       //Quiero que solo el mismo usuario o un administrador puedan editar los datos del usuario
       const newUser = new User(req.body);
       newUser._id = id;
+      newUser.role = req.user.role; //hago que con esta función no se pueda cambiar el rol
       const updatedUser = await User.findByIdAndUpdate(id, newUser, {
         new: true
       });

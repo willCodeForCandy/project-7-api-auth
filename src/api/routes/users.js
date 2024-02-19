@@ -13,6 +13,6 @@ userRoutes.post('/register', register);
 userRoutes.post('/login', login);
 userRoutes.get('/', getUsers);
 userRoutes.put('/:id', [isLogedIn], editUser);
-userRoutes.delete('/:id', [isAdmin], deleteUser);
+userRoutes.delete('/:id', [isLogedIn], [isAdmin], deleteUser);
 
 module.exports = userRoutes;

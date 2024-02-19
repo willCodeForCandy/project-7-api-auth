@@ -20,17 +20,7 @@ const isLogedIn = async (req, res, next) => {
 };
 const isAdmin = async (req, res, next) => {
   try {
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (!token) {
-      return res
-        .status(400)
-        .json('No estás autorizado para realizar esta acción 2');
-    }
-    const { id } = verifyJwt(token);
-    const user = await User.findById(id);
-    user.password = null;
-    if (user.role === 'admin') {
-      req.user = user;
+    if (req.user.role === 'admin') {
       next();
     }
   } catch (error) {
